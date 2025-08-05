@@ -1,0 +1,144 @@
+/* =============================================================
+   CONFIGURATION PANEL – tweak anything below this line
+   ============================================================= */
+
+/* ── Ring layout ──────────────────────────────────────────── */
+$ring-item-counts: (3, 2, 1);   // number of badges on each ring
+$outer-ring-size : 25rem;       // diameter of the outer‑most ring
+$ring-step       : 7rem;        // distance between successive rings
+
+/* If you want individual speeds per ring, list them here (same length
+   as $ring-item-counts). Leave empty () to use base+step values below. */
+$ring-durations  : (180s, 120s, 90s);          // eg. (36s, 30s, 24s)
+$base-duration   : 40s;         // outer‑ring spin period when list above is empty
+$duration-step   : 1s;          // how much faster each inner ring spins
+
+/* ── Badge (orbiting element) ─────────────────────────────── */
+$badge-size        : 2.5rem;     // diameter / height of badge
+$badge-font-size   : .45rem;     // text size inside badge
+$badge-border-radius: 45%;       // 50% = circle • math.div($badge-size,2) = pill
+
+$badge-color        : #ff5ff7;   // base colour
+$badge-glow-strength: 1;       // 0–1, intensity of outer glow
+
+/* ── Ring appearance ─────────────────────────────────────── */
+$ring-color         : #fbfcc9;   // ring & glow colour
+$ring-glow-strength : 0;        // 0–1, intensity of glow
+$ring-border-width  : 0.5px;       // line thickness
+
+/* ── Centre text ─────────────────────────────────────────── */
+$centre-font-size   : clamp(1rem, 3.4vw, 1.5rem);
+$centre-font-weight : 800;
+
+/* =============================================================
+   END OF CONFIG – no need to edit below unless you want to
+   ============================================================= */
+
+@use "sass:list";
+@use "sass:math";
+
+/* — Derived values — */
+$ring-count  : list.length($ring-item-counts) - 1;
+$badge-bg    : rgba($badge-color, .18);
+$badge-glow  : rgba($badge-color, $badge-glow-strength);
+$ring-border-col: rgba($ring-color, .55);
+$ring-glow   : rgba($ring-color, $ring-glow-strength);
+
+/* --------------------------------------------------
+   RESET / BASE
+-------------------------------------------------- */
+* { box-sizing: border-box; }
+html, body {
+  height: 100%; margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #060917; color: #e9eef9;
+  overflow: hidden;
+}
+#bgCanvas { position: fixed; inset: 0; z-index: 0; }
+
+/* --------------------------------------------------
+   HERO SECTION
+-------------------------------------------------- */
+.hero { display: grid; place-items: center; width: 100%; height: 100%; pointer-events: none; }
+.name {
+  margin: 0; white-space: nowrap;
+  font-size: $centre-font-size; font-weight: $centre-font-weight; letter-spacing: .05em;
+}
+.orbit-center { z-index: 10; }
+
+/* --------------------------------------------------
+   BADGE STYLE
+-------------------------------------------------- */
+.orbit-tag {
+  display: flex; align-items: center; justify-content: center;
+  width: $badge-size; height: $badge-size;
+  font-size: $badge-font-size; font-weight: 600;
+  text-transform: uppercase; text-align: center; line-height: 1;
+  border-radius: $badge-border-radius;
+  background: $badge-bg;
+  box-shadow: 0 0 12px $badge-glow;
+  /* Keep badge centred & counter‑rotating */
+  animation: counterSpin var(--ring-duration, $base-duration) linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+/* --------------------------------------------------
+   STRUCTURAL HELPERS
+-------------------------------------------------- */
+.orbit-wrap  { position: relative; width: 0; height: 0; }
+.orbit-wrap > li { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+%ring {
+  list-style: none;
+  border: $ring-border-width solid $ring-border-col;
+  border-radius: 50%; position: relative;
+  margin: 0; padding: 0;
+  box-shadow: 0 0 14px $ring-glow, 0 0 25px rgba($ring-color, .35);
+}
+
+%anchor { position: absolute; top: 50%; left: 50%; width: 0; height: 0; transform-origin: center; }
+
+/* --------------------------------------------------
+   RING GENERATION
+-------------------------------------------------- */
+@for $i from 0 through $ring-count {
+  $radius     : $outer-ring-size - ($i * $ring-step);
+  /* pick duration: explicit list > fallback formula */
+  $duration   : if(list.length($ring-durations) == $ring-count + 1,
+                    list.nth($ring-durations, $i + 1),
+                    $base-duration - ($i * $duration-step));
+  $children   : list.nth($ring-item-counts, $i + 1);
+
+  .ring-#{$i} {
+    @extend %ring;
+    width: $radius; height: $radius;
+    animation: spin $duration linear infinite;
+
+    > li { @extend %anchor; }
+    > li > .orbit-tag { --ring-duration: #{$duration}; }
+
+    /* distribute anchors */
+    @for $j from 1 through $children {
+      > :nth-child(#{$j}) {
+        $deg: math.div(360deg, $children);
+        transform: rotate($j * $deg)
+                  translate(math.div($radius, 2))
+                  rotate(-$j * $deg);
+      }
+    }
+  }
+}
+
+/* --------------------------------------------------
+   ANIMATIONS
+-------------------------------------------------- */
+@keyframes spin        { to { transform: rotate(360deg);  } }
+@keyframes counterSpin {
+  from { transform: translate(-50%, -50%) rotate(  0deg); }
+  to   { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+/* --------------------------------------------------
+   UTILITY
+-------------------------------------------------- */
+ul { list-style: none; margin: 0; padding: 0; }

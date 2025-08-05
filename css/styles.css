@@ -1,0 +1,196 @@
+@charset "UTF-8";
+/* =============================================================
+   CONFIGURATION PANEL – tweak anything below this line
+   ============================================================= */
+/* ── Ring layout ──────────────────────────────────────────── */
+/* If you want individual speeds per ring, list them here (same length
+   as $ring-item-counts). Leave empty () to use base+step values below. */
+/* ── Badge (orbiting element) ─────────────────────────────── */
+/* ── Ring appearance ─────────────────────────────────────── */
+/* ── Centre text ─────────────────────────────────────────── */
+/* =============================================================
+   END OF CONFIG – no need to edit below unless you want to
+   ============================================================= */
+/* — Derived values — */
+/* --------------------------------------------------
+   RESET / BASE
+-------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #060917;
+  color: #e9eef9;
+  overflow: hidden;
+}
+
+#bgCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* --------------------------------------------------
+   HERO SECTION
+-------------------------------------------------- */
+.hero {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.name {
+  margin: 0;
+  white-space: nowrap;
+  font-size: clamp(1rem, 3.4vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.orbit-center {
+  z-index: 10;
+}
+
+/* --------------------------------------------------
+   BADGE STYLE
+-------------------------------------------------- */
+.orbit-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.45rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+  border-radius: 45%;
+  background: rgba(255, 95, 247, 0.18);
+  box-shadow: 0 0 12px #ff5ff7;
+  /* Keep badge centred & counter‑rotating */
+  animation: counterSpin var(--ring-duration, 40s) linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+/* --------------------------------------------------
+   STRUCTURAL HELPERS
+-------------------------------------------------- */
+.orbit-wrap {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+.orbit-wrap > li {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ring-2, .ring-1, .ring-0 {
+  list-style: none;
+  border: 0.5px solid rgba(251, 252, 201, 0.55);
+  border-radius: 50%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 0 14px rgba(251, 252, 201, 0), 0 0 25px rgba(251, 252, 201, 0.35);
+}
+
+.ring-2 > li, .ring-1 > li, .ring-0 > li {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: center;
+}
+
+/* --------------------------------------------------
+   RING GENERATION
+-------------------------------------------------- */
+/* pick duration: explicit list > fallback formula */
+.ring-0 {
+  width: 25rem;
+  height: 25rem;
+  animation: spin 180s linear infinite;
+  /* distribute anchors */
+}
+.ring-0 > li > .orbit-tag {
+  --ring-duration: 180s;
+}
+.ring-0 > :nth-child(1) {
+  transform: rotate(120deg) translate(12.5rem) rotate(-120deg);
+}
+.ring-0 > :nth-child(2) {
+  transform: rotate(240deg) translate(12.5rem) rotate(-240deg);
+}
+.ring-0 > :nth-child(3) {
+  transform: rotate(360deg) translate(12.5rem) rotate(-360deg);
+}
+
+/* pick duration: explicit list > fallback formula */
+.ring-1 {
+  width: 18rem;
+  height: 18rem;
+  animation: spin 120s linear infinite;
+  /* distribute anchors */
+}
+.ring-1 > li > .orbit-tag {
+  --ring-duration: 120s;
+}
+.ring-1 > :nth-child(1) {
+  transform: rotate(180deg) translate(9rem) rotate(-180deg);
+}
+.ring-1 > :nth-child(2) {
+  transform: rotate(360deg) translate(9rem) rotate(-360deg);
+}
+
+/* pick duration: explicit list > fallback formula */
+.ring-2 {
+  width: 11rem;
+  height: 11rem;
+  animation: spin 90s linear infinite;
+  /* distribute anchors */
+}
+.ring-2 > li > .orbit-tag {
+  --ring-duration: 90s;
+}
+.ring-2 > :nth-child(1) {
+  transform: rotate(360deg) translate(5.5rem) rotate(-360deg);
+}
+
+/* --------------------------------------------------
+   ANIMATIONS
+-------------------------------------------------- */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes counterSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+/* --------------------------------------------------
+   UTILITY
+-------------------------------------------------- */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*# sourceMappingURL=styles.css.map */
