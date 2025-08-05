@@ -2,18 +2,17 @@
 /* =============================================================
    CONFIGURATION PANEL – tweak anything below this line
    ============================================================= */
-/* ── Ring layout ──────────────────────────────────────────── */
-/* If you want individual speeds per ring, list them here (same length
-   as $ring-item-counts). Leave empty () to use base+step values below. */
-/* ── Badge (orbiting element) ─────────────────────────────── */
-/* ── Ring appearance ─────────────────────────────────────── */
-/* ── Centre text ─────────────────────────────────────────── */
+/* ── Ring layout ─────────────────────────────────────────── */
+/* ── “Sun” (centre text) options ─────────────────────────── */
+/* ── Badge (orbiting element) ────────────────────────────── */
+/* ── Rings appearance ────────────────────────────────────── */
+/* ── Centre text font / colour ───────────────────────────── */
 /* =============================================================
-   END OF CONFIG – no need to edit below unless you want to
+   END OF CONFIG – no need to edit below unless you wish to
    ============================================================= */
 /* — Derived values — */
 /* --------------------------------------------------
-   RESET / BASE
+   BASE RESET
 -------------------------------------------------- */
 * {
   box-sizing: border-box;
@@ -32,10 +31,11 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 0;
+  pointer-events: none;
 }
 
 /* --------------------------------------------------
-   HERO SECTION
+   HERO
 -------------------------------------------------- */
 .hero {
   display: grid;
@@ -45,42 +45,58 @@ html, body {
   pointer-events: none;
 }
 
-.name {
-  margin: 0;
-  white-space: nowrap;
-  font-size: clamp(1rem, 3.4vw, 1.5rem);
-  font-weight: 800;
-  letter-spacing: 0.05em;
-}
-
 .orbit-center {
   z-index: 10;
 }
 
+.name {
+  margin: 0;
+  white-space: nowrap;
+  position: relative;
+  z-index: 11;
+  font-size: clamp(0.9rem, 3vw, 1.6rem);
+  font-weight: 800;
+  font-family: "Inter", sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  /* glowing sun text – scales with $sun-glow-strength */
+  text-shadow: 0 0 6px rgba(255, 246, 213, 0.675), 0 0 14px rgba(255, 246, 213, 0.525), 0 0 24px rgba(255, 173, 53, 0.45), 0 0 38px rgba(255, 184, 74, 0.6), 0 0 48px rgba(255, 184, 74, 0.45);
+  animation: sunGlowPulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes sunGlowPulse {
+  from {
+    text-shadow: 0 0 4px rgba(255, 246, 213, 0.525), 0 0 10px rgba(255, 246, 213, 0.375), 0 0 18px rgba(255, 173, 53, 0.3), 0 0 28px rgba(255, 184, 74, 0.375), 0 0 38px rgba(255, 184, 74, 0.225);
+    transform: scale(1);
+  }
+  to {
+    text-shadow: 0 0 8px rgba(255, 246, 213, 0.75), 0 0 20px rgba(255, 246, 213, 0.675), 0 0 34px rgba(255, 173, 53, 0.6), 0 0 48px rgba(255, 184, 74, 0.675), 0 0 64px rgba(255, 184, 74, 0.6);
+    transform: scale(1);
+  }
+}
 /* --------------------------------------------------
-   BADGE STYLE
+   BADGES – orbiting planets
 -------------------------------------------------- */
 .orbit-tag {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 0.45rem;
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
-  border-radius: 45%;
+  border-radius: 50%;
   background: rgba(255, 95, 247, 0.18);
-  box-shadow: 0 0 12px #ff5ff7;
-  /* Keep badge centred & counter‑rotating */
-  animation: counterSpin var(--ring-duration, 40s) linear infinite;
+  box-shadow: 0 0 12px rgba(255, 95, 247, 0.8);
+  animation: counterSpin var(--ring-duration, 38s) linear infinite;
   transform: translate(-50%, -50%);
 }
 
 /* --------------------------------------------------
-   STRUCTURAL HELPERS
+   STRUCTURE
 -------------------------------------------------- */
 .orbit-wrap {
   position: relative;
@@ -102,7 +118,7 @@ html, body {
   position: relative;
   margin: 0;
   padding: 0;
-  box-shadow: 0 0 14px rgba(251, 252, 201, 0), 0 0 25px rgba(251, 252, 201, 0.35);
+  box-shadow: 0 0 14px #fbfcc9, 0 0 25px rgba(251, 252, 201, 0.35);
 }
 
 .ring-2 > li, .ring-1 > li, .ring-0 > li {
@@ -115,57 +131,51 @@ html, body {
 }
 
 /* --------------------------------------------------
-   RING GENERATION
+   RINGS
 -------------------------------------------------- */
-/* pick duration: explicit list > fallback formula */
 .ring-0 {
-  width: 25rem;
-  height: 25rem;
-  animation: spin 180s linear infinite;
-  /* distribute anchors */
+  width: 28rem;
+  height: 28rem;
+  animation: spin 38s linear infinite;
 }
 .ring-0 > li > .orbit-tag {
-  --ring-duration: 180s;
+  --ring-duration: 38s;
 }
 .ring-0 > :nth-child(1) {
-  transform: rotate(120deg) translate(12.5rem) rotate(-120deg);
+  transform: rotate(120deg) translate(14rem) rotate(-120deg);
 }
 .ring-0 > :nth-child(2) {
-  transform: rotate(240deg) translate(12.5rem) rotate(-240deg);
+  transform: rotate(240deg) translate(14rem) rotate(-240deg);
 }
 .ring-0 > :nth-child(3) {
-  transform: rotate(360deg) translate(12.5rem) rotate(-360deg);
+  transform: rotate(360deg) translate(14rem) rotate(-360deg);
 }
 
-/* pick duration: explicit list > fallback formula */
 .ring-1 {
-  width: 18rem;
-  height: 18rem;
-  animation: spin 120s linear infinite;
-  /* distribute anchors */
+  width: 21rem;
+  height: 21rem;
+  animation: spin 34s linear infinite;
 }
 .ring-1 > li > .orbit-tag {
-  --ring-duration: 120s;
+  --ring-duration: 34s;
 }
 .ring-1 > :nth-child(1) {
-  transform: rotate(180deg) translate(9rem) rotate(-180deg);
+  transform: rotate(180deg) translate(10.5rem) rotate(-180deg);
 }
 .ring-1 > :nth-child(2) {
-  transform: rotate(360deg) translate(9rem) rotate(-360deg);
+  transform: rotate(360deg) translate(10.5rem) rotate(-360deg);
 }
 
-/* pick duration: explicit list > fallback formula */
 .ring-2 {
-  width: 11rem;
-  height: 11rem;
-  animation: spin 90s linear infinite;
-  /* distribute anchors */
+  width: 14rem;
+  height: 14rem;
+  animation: spin 30s linear infinite;
 }
 .ring-2 > li > .orbit-tag {
-  --ring-duration: 90s;
+  --ring-duration: 30s;
 }
 .ring-2 > :nth-child(1) {
-  transform: rotate(360deg) translate(5.5rem) rotate(-360deg);
+  transform: rotate(360deg) translate(7rem) rotate(-360deg);
 }
 
 /* --------------------------------------------------
