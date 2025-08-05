@@ -13,18 +13,29 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <!-- Star / hyper-light background -->
+
+  <!-- Galactic-star backdrop -->
   <canvas id="bgCanvas" aria-hidden="true"></canvas>
 
-  <!-- ── Hero ─────────────────────────────────────────────────── -->
-  <section class="hero">
+  <!-- ── Global nav ─────────────────────────────────────────── -->
+  <nav class="site-nav" aria-label="Primary">
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experiences">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero / orbital rings ───────────────────────────────── -->
+  <section id="top" class="hero">
     <div class="orbit">
       <ul class="orbit-wrap">
 
-        <!-- your name -->
+        <!-- “Wei Yau” = Sun -->
         <li class="orbit-center"><h1 class="name">Wei&nbsp;Yau</h1></li>
 
-        <!-- ring 0 -->
+        <!-- Ring 0 – 3 planets -->
         <li>
           <ul class="ring-0">
             <li><span class="orbit-tag">Coder</span></li>
@@ -33,7 +44,7 @@
           </ul>
         </li>
 
-        <!-- ring 1 -->
+        <!-- Ring 1 – 2 planets -->
         <li>
           <ul class="ring-1">
             <li><span class="orbit-tag">Designer</span></li>
@@ -41,23 +52,78 @@
           </ul>
         </li>
 
-        <!-- ring 2 -->
+        <!-- Ring 2 – 1 planet -->
         <li>
           <ul class="ring-2">
             <li><span class="orbit-tag">Engineer</span></li>
           </ul>
         </li>
-
-        <!--
-        <li><span class="orbit-tag">Maker</span></li>
-        <li><span class="orbit-tag">Dreamer</span></li>
-        <li><span class="orbit-tag">Writer</span></li>
-        <li><span class="orbit-tag">Thinker</span></li>
-        <li><span class="orbit-tag">Creator</span></li>
-        -->
-
       </ul>
     </div>
+  </section>
+
+  <!-- ── About ──────────────────────────────────────────────── -->
+  <section id="about" class="section">
+    <h2 class="section-title">About Me</h2>
+    <p>
+      I’m a Singapore-based Software Engineering undergraduate (SMU, Class ’27) who lives at
+      the intersection of <strong>data, product and code</strong>.  
+      My toolkit spans Python, SQL/MySQL, HTML/CSS, PHP and a dash of Unity, with dashboards
+      in Tableau &amp; PowerBI and version control on Git/GitHub.
+    </p>
+  </section>
+
+  <!-- ── Experience (skill-focused cards) ───────────────────── -->
+  <section id="experiences" class="section">
+    <h2 class="section-title">Experience</h2>
+
+    <!-- Card: Monee -->
+    <article class="card">
+      <h3 class="card-title">Business Intelligence &amp; Analytics Intern — Monee (SeaMoney) <span class="date">(Aug – Dec 2025)</span></h3>
+      <p class="taglist">
+        <span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Tableau</span>
+        <span class="tag">PowerBI</span><span class="tag">Data Ops</span><span class="tag">Dashboarding</span>
+      </p>
+    </article>
+
+    <!-- Card: AXS -->
+    <article class="card">
+      <h3 class="card-title">Product Management Intern — AXS Pte Ltd <span class="date">(May – Aug 2025)</span></h3>
+      <p class="taglist">
+        <span class="tag">QA / UAT</span><span class="tag">Product Road-maps</span>
+        <span class="tag">Stakeholder Mgmt</span><span class="tag">KPI Analytics</span>
+      </p>
+    </article>
+
+    <!-- Card: TikTok -->
+    <article class="card">
+      <h3 class="card-title">Talent Acquisition Intern — TikTok T&amp;S <span class="date">(Jan – Aug 2024)</span></h3>
+      <p class="taglist">
+        <span class="tag">Stakeholder Mgmt</span><span class="tag">Screening</span>
+        <span class="tag">Data Visualisation</span><span class="tag">Process Optimisation</span>
+      </p>
+    </article>
+  </section>
+
+  <!-- ── Projects ───────────────────────────────────────────── -->
+  <section id="projects" class="section">
+    <h2 class="section-title">Projects</h2>
+
+    <article class="card">
+      <h3 class="card-title">Piskwy — Telegram Movie Bot</h3>
+      <p>A Python bot that recommends films via the TMDb API and stores user preferences in MongoDB.</p>
+      <p class="taglist">
+        <span class="tag">Python</span><span class="tag">Telegram Bot API</span>
+        <span class="tag">TMDb</span><span class="tag">MongoDB</span>
+      </p>
+      <a class="btn" href="https://github.com/your-github/piskwy-bot" target="_blank" rel="noopener">View on GitHub</a>
+    </article>
+
+  <!-- ── Contact ────────────────────────────────────────────── -->
+  <section id="contact" class="section">
+    <h2 class="section-title">Get in Touch</h2>
+    <p>Email: <a href="mailto:weiyau@live.com">weiyau@live.com</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/limweiyau" target="_blank" rel="noopener">/in/limweiyau</a></p>
   </section>
 
   <!-- Scripts -->
