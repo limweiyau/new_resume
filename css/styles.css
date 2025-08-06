@@ -1,12 +1,19 @@
 @charset "UTF-8";
 
 /* =====================================================================
+   Wei Yau — styles.css (Refactored, dynamic scaling, Aug 2025)
+   - Goals: cleaner tokens, dynamic clamp() sizing, stable fixed nav,
+            responsive orbit rings, reduced-motion safety.
+   - Safe to drop-in replace your current styles.css.
+   ===================================================================== */
+
+/* =====================================================================
    0) GLOBAL CONFIGURATION TABLE
    ---------------------------------------------------------------------
    Notes on numeric scales:
    • Values marked 0..1 are normalized controls:
-     0 means "none", 1 means "maximum" (linear scale unless noted).
-   • You can safely change these without touching component rules.
+     0 = "none", 1 = "maximum" (linear scale unless noted).
+   • Tweak tokens below; components read from these.
    ===================================================================== */
 
 :root{
@@ -18,23 +25,23 @@
   --accent-2: #a18bff;
 
   /* ---------- Layout ---------- */
-  --container-w: 1700px;         /* max content width */
-  --container-pad: 50px;          /* side breathing room percentage */
-  --nav-h: 72px;                 /* fixed nav height for anchor offset */
-  --section-pad-min: 40px;       /* section vertical padding min */
-  --section-pad-vh: 5vh;         /* section vertical padding viewport */
-  --section-pad-max: 56px;       /* section vertical padding max */
+  --container-w: 1700px;                       /* max content width */
+  --container-pad: clamp(16px, 6vw, 56px);     /* side breathing room */
+  --nav-h: 72px;                               /* fixed nav height */
+  --section-pad-min: 40px;
+  --section-pad-vh: 5vh;
+  --section-pad-max: 56px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
 
   /* ---------- Surfaces and Panels ---------- */
-  --panel-alpha: 0.06;           /* 0..1 lower = more transparent */
-  --panel-border-alpha: 0.08;    /* 0..1 lower = subtler border */
-  --panel-blur: 8px;             /* backdrop blur strength; can be 0 for none */
+  --panel-alpha: 0.06;        /* 0..1 lower = more transparent */
+  --panel-border-alpha: 0.08; /* 0..1 lower = subtler border */
+  --panel-blur: 8px;          /* backdrop blur strength; can be 0 for none */
 
   /* ---------- Glow System (controlled by level 0..1) ---------- */
-  --glow-level: 0.75;            /* 0..1 master glow strength toggle */
+  --glow-level: 0.75;            /* 0..1 master glow strength */
   --glow1-color: 138,211,255;    /* rgb triplet for glow ring 1 */
   --glow2-color: 161,139,255;    /* rgb triplet for glow ring 2 */
   --glow1-blur-max: 24px;        /* blur at level = 1 for inner glow ring */
@@ -54,26 +61,26 @@
   --accent-gradient: linear-gradient(90deg, var(--accent), var(--accent-2));
 
   /* ---------- Motion and Interactions ---------- */
-  --motion-scale: 1;             /* 0..1 overall animation/transition intensity */
+  --motion-scale: 1;                  /* 0..1 overall animation intensity */
   --hover-lift: calc(3px * var(--motion-scale));
-  --ui-ease: 160ms;              /* standard micro-interaction timing */
+  --ui-ease: 160ms;                   /* standard micro-interaction timing */
 
   /* ---------- Scroll Progress Bar ---------- */
   --progress-h: 3px;
 
   /* ---------- Hero and Orbits ---------- */
-  --hero-minvh: 85vh;            /* min height of hero area */
-  /* Ring sizes (diameters). Adjust to resize system consistently */
-  --ring-0-size: 26rem;
-  --ring-1-size: 21rem;
-  --ring-2-size: 16rem;
+  --hero-minvh: 85vh;                 /* min height of hero area */
+  /* Ring sizes (now responsive via clamp + vw) */
+  --ring-0-size: clamp(18rem, 52vw, 28rem);
+  --ring-1-size: clamp(14rem, 40vw, 21rem);
+  --ring-2-size: clamp(10rem, 28vw, 16rem);
   /* Ring base speed in seconds; inner rings speed up by a step */
   --ring-0-dur: 38s;
   --ring-1-dur: 34s;
   --ring-2-dur: 30s;
-  /* Badge size */
-  --badge-d: 2rem;               /* diameter for orbit tags */
-  --badge-fs: 0.6rem;            /* font size for orbit tags */
+  /* Badge size (responsive) */
+  --badge-d: clamp(1.6rem, 2.4vw, 2rem);
+  --badge-fs: clamp(0.55rem, 0.9vw, 0.7rem);
 
   /* ---------- Typography ---------- */
   --font-body: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
@@ -82,11 +89,17 @@
   --h2-max: 34px;
 
   /* ---------- Shadows and Outlines ---------- */
-  --outline-alpha: 0.28;         /* 0..1 subtle accent outline strength */
+  --outline-alpha: 0.28;
 
   /* ---------- Misc ---------- */
-  --card-back-alpha-top: 0.05;   /* gradient panels: top stop alpha */
-  --card-back-alpha-bot: 0.03;   /* gradient panels: bottom stop alpha */
+  --card-back-alpha-top: 0.05;  /* gradient panels: top stop alpha */
+  --card-back-alpha-bot: 0.03;  /* gradient panels: bottom stop alpha */
+
+  /* ---------- Nav / Hamburger tuning ---------- */
+  --hamb-bar-w: 24px;
+  --hamb-bar-h: 2px;
+  --hamb-gap: 4px;
+  --hamb-hit: 40px; /* touch target */
 }
 
 /* =====================================================================
@@ -100,9 +113,9 @@ html, body {
   height: auto;
   min-height: 100%;
 }
-html{
-  scroll-padding-top: 0px !important;
-}
+/* Keep anchor auto-offset neutral (no synthetic offset that can cause jumps) */
+html{ scroll-padding-top: 0 !important; }
+
 body{
   margin: 0;
   font-family: var(--font-body);
@@ -111,7 +124,7 @@ body{
   background: var(--bg);
   overflow-x: hidden;
   overflow-y: auto;
-  padding-top: 0; /* was var(--nav-h) — we manage offsets with sentinels */
+  padding-top: 0;
 }
 
 /* Visually hidden but accessible text */
@@ -131,7 +144,7 @@ body{
    ===================================================================== */
 
 .scroll_progress{
-  position: fixed; left: 0; right: 0; top: 0; height: var(--progress-h); z-index: 50;
+  position: fixed; left: 0; right: 0; top: 0; height: var(--progress-h); z-index: 60;
   background: rgba(255,255,255,0.06);
 }
 .scroll_progress span{
@@ -146,8 +159,9 @@ body{
    ===================================================================== */
 
 .container{
-  width: min(var(--container-w), calc(100% - var(--container-pad)));
+  width: min(var(--container-w), calc(100% - (2 * var(--container-pad))));
   margin-inline: auto;
+  padding-inline: var(--container-pad);
 }
 .section{ position: relative; }
 .section_pad{
@@ -160,10 +174,17 @@ body{
   text-shadow: 0 0 18px rgba(var(--glow1-color), calc(0.25 * var(--glow-level)));
 }
 
-
 /* =====================================================================
-   4) NAVIGATION (fixed, hide/show on scroll)
-   ===================================================================== */
+   4) NAVIGATION — fixed, drift-proof, mobile-first
+   ---------------------------------------------------------------------
+   Works with existing HTML:
+     <header class="nav" data-state="closed">
+       <a class="nav_brand" href="#top">Wei Yau</a>
+       <button class="nav_toggle" ...><span/><span/><span/></button>
+       <nav id="primary-nav" class="nav_links">...</nav>
+     </header>
+   --------------------------------------------------------------------- */
+
 
 /* =====================================================================
    5) HERO AND ORBIT SYSTEM
@@ -173,8 +194,11 @@ body{
   min-height: calc(var(--hero-minvh) - var(--nav-h));
   display: grid; place-items: center;
   position: relative; pointer-events: none;
-  margin: 0; margin-top: 50px; padding-top: 0;
+  margin: 0;
+  margin-top: calc(var(--nav-h) + 12px);
+  padding-top: 0;
 }
+
 .orbit-center{ z-index: 11; }
 
 .name{
@@ -538,3 +562,31 @@ ul{ list-style: none; margin: 0; padding: 0; }
   border-radius: var(--radius-lg);
   box-shadow: var(--glow);
 }
+
+/* =====================================================================
+   14) ACCESSIBILITY / SAFETY GUARDS
+   ===================================================================== */
+
+/* Reduce motion when the user prefers it */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+}
+
+/* High-contrast mode tweaks (optional, safe default) */
+@media (forced-colors: active){
+  .glass, .border_panel, .btn, .btn_ghost, .timeline_card, .proj_card{
+    box-shadow: none;
+  }
+}
+
+/* Prevent horizontal overflow artifacts */
+html, body { overflow-x: hidden; scrollbar-gutter: stable both-edges; }
+
+/* If anything still forces width via 100vw, constrain it */
+img, canvas, video { max-width: 100%; }
+
+/* Safer full-bleed approach than 100vw */
+.full-bleed { position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw; }
+
+/* If you later find a specific offender, clamp it explicitly: */
+/* .offender { max-width: 100% !important; } */
