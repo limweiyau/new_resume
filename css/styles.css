@@ -19,7 +19,7 @@
 
   /* ---------- Layout ---------- */
   --container-w: 1700px;         /* max content width */
-  --container-pad: 20%;          /* side breathing room percentage */
+  --container-pad: 50px;          /* side breathing room percentage */
   --nav-h: 72px;                 /* fixed nav height for anchor offset */
   --section-pad-min: 40px;       /* section vertical padding min */
   --section-pad-vh: 5vh;         /* section vertical padding viewport */
@@ -93,10 +93,16 @@
    1) BASE AND RESET
    ===================================================================== */
 
+
 *{ box-sizing: border-box; }
-html, body{ height: 100%; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  min-height: 100%;
+}
 html{
-  scroll-behavior: smooth; /* JS handles precise easing; keep native smooth */
+  scroll-padding-top: 0px !important;
 }
 body{
   margin: 0;
@@ -155,83 +161,10 @@ body{
   text-shadow: 0 0 18px rgba(var(--glow1-color), calc(0.25 * var(--glow-level)));
 }
 
-/* Global anchor sentinel (one source of truth) */
-section[id]{ position: relative; }
-section[id]::before{
-  content: "";
-  display: block;
-  height: calc(var(--nav-h) + 60px); /* tweak the +60px buffer as needed */
-  margin-top: calc(-1 * (var(--nav-h) + 16px));
-  visibility: hidden;
-  pointer-events: none;
-}
 
 /* =====================================================================
    4) NAVIGATION (fixed, hide/show on scroll)
    ===================================================================== */
-
-.nav{
-  position: fixed; left: 0; right: 0; top: 0; z-index: 60;
-  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
-  gap: 12px; padding: 12px min(var(--container-pad), 24px);
-  background: rgba(7,11,20,0.8);
-  backdrop-filter: blur(var(--panel-blur));
-  border-bottom: 1px solid rgba(255,255,255, var(--panel-border-alpha));
-  transition: transform calc(180ms * var(--motion-scale)) ease;
-  will-change: transform;
-}
-.nav.nav--hidden{ transform: translateY(-100%); }
-
-.nav .nav_brand{
-  display: inline-grid; place-items: center; height: 36px; padding: 0 12px;
-  border-radius: 10px; font-weight: 800; letter-spacing: 1px;
-  color: var(--text); text-decoration: none;
-  background: rgba(255,255,255, var(--panel-alpha));
-  border: 1px solid rgba(255,255,255, var(--panel-border-alpha));
-  box-shadow: var(--glow);
-}
-
-.nav .nav_toggle{
-  justify-self: end; display: none; cursor: pointer; background: transparent; border: 0; padding: 8px;
-}
-.nav .nav_toggle .nav_toggle_bar{
-  display: block; width: 24px; height: 2px; background: var(--text); margin: 5px 0; border-radius: 2px;
-}
-
-.nav .nav_links{
-  justify-self: end; display: flex; gap: clamp(10px, 3vw, 24px);
-}
-.nav .nav_links a{
-  color: var(--muted); text-decoration: none; font-weight: 500; padding: 10px 8px; border-radius: var(--radius-md);
-  transition:
-    transform calc(var(--ui-ease) * var(--motion-scale)) ease,
-    color calc(var(--ui-ease) * var(--motion-scale)) ease,
-    background calc(var(--ui-ease) * var(--motion-scale)) ease;
-}
-.nav .nav_links a:hover{ color: var(--text); background: rgba(255,255,255, var(--panel-alpha)); }
-.nav .nav_links a[aria-current="page"]{
-  color: var(--accent); text-shadow: 0 0 22px rgba(var(--glow1-color), calc(0.6 * var(--glow-level)));
-}
-
-/* Mobile nav */
-@media (max-width: 860px){
-  body.no_scroll{ overflow: hidden; }
-  .nav{ grid-template-columns: auto 1fr auto; }
-  .nav .nav_toggle{ display: inline-block; justify-self: end; }
-  .nav .nav_links{
-    position: fixed; left: 12px; right: 12px; top: calc(var(--nav-h) + 8px);
-    display: grid; gap: 8px; padding: 12px;
-    background: rgba(7,11,20,0.92); backdrop-filter: blur(calc(var(--panel-blur) + 2px));
-    border: 1px solid rgba(255,255,255, var(--panel-border-alpha)); border-radius: var(--radius-lg);
-    transform-origin: top right; transform: scale(0.98); opacity: 0; pointer-events: none;
-    transition:
-      transform calc(var(--ui-ease) * var(--motion-scale)) ease,
-      opacity calc(var(--ui-ease) * var(--motion-scale)) ease;
-  }
-  .nav[data-state="open"] .nav_links{
-    transform: scale(1); opacity: 1; pointer-events: auto;
-  }
-}
 
 /* =====================================================================
    5) HERO AND ORBIT SYSTEM
@@ -241,7 +174,7 @@ section[id]::before{
   min-height: calc(var(--hero-minvh) - var(--nav-h));
   display: grid; place-items: center;
   position: relative; pointer-events: none;
-  margin: 0; margin-bottom: 100px; padding-top: 0;
+  margin: 0; margin-top: 50px; padding-top: 0;
 }
 .orbit-center{ z-index: 11; }
 
@@ -583,7 +516,13 @@ section[id]::before{
    13) REVEAL AND UTILITIES
    ===================================================================== */
 
-.reveal{ opacity: 0; transform: translateY(10px); }
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: opacity, transform;
+  min-height: 1px;
+}
 .in_view{
   opacity: 1; transform: none;
   transition:
