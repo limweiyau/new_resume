@@ -5,55 +5,242 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Wei Yau — Portfolio</title>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 
-  <!-- Galactic-star backdrop -->
+  <!-- Starfield backdrop -->
   <canvas id="bgCanvas" aria-hidden="true"></canvas>
 
-  <!-- ── Hero / orbital rings ───────────────────────────────── -->
-  <section id="top" class="hero">
-    <div class="orbit">
-      <ul class="orbit-wrap">
+  <!-- Scroll progress -->
+  <div class="scroll_progress" aria-hidden="true"><span></span></div>
 
-        <!-- “Wei Yau” = Sun -->
-        <li class="orbit-center"><h1 class="name">Wei&nbsp;Yau</h1></li>
+  <!-- NAVBAR -->
+  <header class="nav" data-state="closed">
+    <a class="nav_brand" href="#top" aria-label="Home">Wei&nbsp;Yau</a>
 
-        <!-- Ring 0 – 3 planets -->
-        <li>
-          <ul class="ring-0">
-            <li><span class="orbit-tag">Coder</span></li>
-            <li><span class="orbit-tag">Student</span></li>
-            <li><span class="orbit-tag">Builder</span></li>
-          </ul>
-        </li>
+    <button class="nav_toggle" aria-expanded="false" aria-controls="primary-nav">
+      <span class="nav_toggle_bar"></span>
+      <span class="nav_toggle_bar"></span>
+      <span class="nav_toggle_bar"></span>
+      <span class="sr_only">Menu</span>
+    </button>
 
-        <!-- Ring 1 – 2 planets -->
-        <li>
-          <ul class="ring-1">
-            <li><span class="orbit-tag">Designer</span></li>
-            <li><span class="orbit-tag">Developer</span></li>
-          </ul>
-        </li>
+    <nav id="primary-nav" class="nav_links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#experience">Experiences</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-        <!-- Ring 2 – 1 planet -->
-        <li>
-          <ul class="ring-2">
-            <li><span class="orbit-tag">Engineer</span></li>
-          </ul>
-        </li>
-      </ul>
+  <main id="top">
+    <!-- HERO: orbital rings -->
+    <section id="top-section" class="hero">
+      <div class="orbit">
+        <ul class="orbit-wrap">
+          <li class="orbit-center"><h1 class="name">Wei&nbsp;Yau</h1></li>
+
+          <!-- Ring 0 – 3 items -->
+          <li>
+            <ul class="ring-0">
+              <li><span class="orbit-tag">Coder</span></li>
+              <li><span class="orbit-tag">Student</span></li>
+              <li><span class="orbit-tag">Builder</span></li>
+            </ul>
+          </li>
+
+          <!-- Ring 1 – 2 items -->
+          <li>
+            <ul class="ring-1">
+              <li><span class="orbit-tag">Designer</span></li>
+              <li><span class="orbit-tag">Developer</span></li>
+            </ul>
+          </li>
+
+          <!-- Ring 2 – 1 item -->
+          <li>
+            <ul class="ring-2">
+              <li><span class="orbit-tag">Engineer</span></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section section_pad">
+      <div class="container">
+        <h2 class="section_title">About</h2>
+        <div class="about_grid reveal">
+          <div class="about_card">
+            <div class="about_avatar" aria-hidden="true">👩‍🚀</div>
+            <h3>Placeholder Name</h3>
+            <p>
+              Short intro text lives here. Add a crisp 2–3 line bio, your interests, and what you are exploring.
+            </p>
+            <ul class="chip_row">
+              <li class="chip">HTML</li>
+              <li class="chip">CSS</li>
+              <li class="chip">JavaScript</li>
+            </ul>
+          </div>
+          <div class="about_panel">
+            <h4>Core Skills</h4>
+            <ul class="list_orbit">
+              <li>Front-end engineering</li>
+              <li>UI and interaction design</li>
+              <li>Prototyping and accessibility</li>
+              <li>Performance hygiene</li>
+            </ul>
+            <h4>Currently Learning</h4>
+            <p>Put placeholder goals here. Keep to one short paragraph for scannability.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCES -->
+    <section id="experience" class="section section_pad">
+      <div class="container">
+        <h2 class="section_title">Experiences</h2>
+        <ol class="timeline">
+          <li class="timeline_item reveal">
+            <div class="timeline_badge" aria-hidden="true">🛰️</div>
+            <div class="timeline_card glass">
+              <header>
+                <h3>Role Title — Company</h3>
+                <span class="meta">YYYY to YYYY</span>
+              </header>
+              <p>One or two lines describing impact. Focus on outcomes and measurable improvements.</p>
+              <ul class="list_bullets">
+                <li>Shipped feature X that did Y.</li>
+                <li>Reduced Z by N percent.</li>
+              </ul>
+            </div>
+          </li>
+          <li class="timeline_item reveal">
+            <div class="timeline_badge" aria-hidden="true">🪐</div>
+            <div class="timeline_card glass">
+              <header>
+                <h3>Role Title — Company</h3>
+                <span class="meta">YYYY to YYYY</span>
+              </header>
+              <p>Another concise highlight of scope and impact.</p>
+              <ul class="list_bullets">
+                <li>Led A with B collaborators.</li>
+                <li>Improved C resulting in D.</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section section_pad">
+      <div class="container">
+        <h2 class="section_title">Projects</h2>
+        <div class="card_grid">
+          <article class="proj_card glass reveal">
+            <div class="proj_header">
+              <h3>Project One</h3>
+              <span class="proj_icon" aria-hidden="true">🚀</span>
+            </div>
+            <p>One-liner elevator pitch. What it does, why it is interesting, and your role.</p>
+            <div class="chip_row">
+              <span class="chip">React</span>
+              <span class="chip">Node</span>
+              <span class="chip">TMDB API</span>
+            </div>
+            <div class="proj_actions">
+              <a class="btn" href="#" aria-disabled="true">Live</a>
+              <a class="btn btn_ghost" href="#" aria-disabled="true">Code</a>
+            </div>
+          </article>
+
+          <article class="proj_card glass reveal">
+            <div class="proj_header">
+              <h3>Project Two</h3>
+              <span class="proj_icon" aria-hidden="true">🛸</span>
+            </div>
+            <p>Another concise project summary with measurable outcomes if possible.</p>
+            <div class="chip_row">
+              <span class="chip">Python</span>
+              <span class="chip">Flask</span>
+            </div>
+            <div class="proj_actions">
+              <a class="btn" href="#" aria-disabled="true">Live</a>
+              <a class="btn btn_ghost" href="#" aria-disabled="true">Code</a>
+            </div>
+          </article>
+
+          <article class="proj_card glass reveal">
+            <div class="proj_header">
+              <h3>Project Three</h3>
+              <span class="proj_icon" aria-hidden="true">🌌</span>
+            </div>
+            <p>Short description. Keep all cards similar height for a tidy grid.</p>
+            <div class="chip_row">
+              <span class="chip">Rust</span>
+              <span class="chip">WASM</span>
+            </div>
+            <div class="proj_actions">
+              <a class="btn" href="#" aria-disabled="true">Live</a>
+              <a class="btn btn_ghost" href="#" aria-disabled="true">Code</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section section_pad">
+      <div class="container">
+        <h2 class="section_title">Contact</h2>
+        <div class="contact_panel glass reveal">
+          <p>Drop a line via your preferred channel. This form is a placeholder.</p>
+          <form class="contact_form" action="#" method="post" novalidate>
+            <label class="field">
+              <span>Name</span>
+              <input type="text" name="name" placeholder="Your name" />
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" placeholder="you@example.com" />
+            </label>
+            <label class="field">
+              <span>Message</span>
+              <textarea name="message" rows="5" placeholder="Say hi..."></textarea>
+            </label>
+            <button class="btn" type="submit" disabled>Send</button>
+          </form>
+          <div class="contact_notes">
+            <a class="link" href="#" aria-disabled="true">GitHub</a>
+            <a class="link" href="#" aria-disabled="true">LinkedIn</a>
+            <a class="link" href="#" aria-disabled="true">Email</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <div class="container">
+      <p>
+        <span aria-hidden="true">©</span>
+        <span id="year"></span> Wei Yau. Built with love and stardust.
+      </p>
+      <a class="to_top" href="#top" aria-label="Back to top">↑</a>
     </div>
-  </section>
+  </footer>
 
-  <!-- Scripts -->
+  <!-- Your background + hero scripts -->
   <script src="js/starfield.js"></script>
   <script src="js/orbit-random.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
