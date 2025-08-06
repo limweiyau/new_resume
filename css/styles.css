@@ -222,29 +222,104 @@ section[id]::before{
   box-shadow:var(--glow);
 }
 
-/* About */
-.about_grid{ display:grid; gap:20px; align-items:start; grid-template-columns:1.1fr 1fr; }
-@media (max-width:900px){ .about_grid{ grid-template-columns:1fr; } }
-.about_card{
-  padding:18px; border-radius:16px;
-  background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+/* About Section */
+.about_grid{
+  display:grid;
+  gap:16px;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;                 /* same height cards */
+}
+@media (max-width:900px){
+  .about_grid{ grid-template-columns:1fr; }
+}
+
+/* Accent outline glow to match the rest */
+.glow_outline{
+  /* outline + ambient glow (works with .glass) */
+  box-shadow:
+    0 0 0 1px rgba(138,211,255,0.28),
+    var(--glow);
+}
+
+/* Cards */
+.about_card,
+.about_panel{
+  padding:20px;
+  border-radius:16px;
+  background: var(--panel);             /* unify with other sections */
   border:1px solid var(--panel_border);
 }
-.about_card h3{ margin:10px 0 6px 0; font-size:22px; }
-.about_card p{ margin:0 0 14px 0; }
-.about_avatar{
-  width:60px; height:60px; display:grid; place-items:center; font-size:28px;
-  border-radius:14px; background:var(--panel); border:1px solid var(--panel_border); box-shadow:var(--glow);
+
+/* Intro row */
+.about_header{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  margin-bottom:12px;
 }
-.about_panel{ padding:18px; border-radius:16px; background:var(--panel); border:1px solid var(--panel_border); }
-.list_orbit{ margin:0 0 12px 0; padding-left:18px; }
-.list_orbit li{ margin:4px 0; }
-.chip_row{ display:flex; flex-wrap:wrap; gap:8px; }
+
+.about_avatar{
+  flex: 0 0 auto;
+  width:56px; height:56px;
+  display:grid; place-items:center;
+  font-size:26px;
+  border-radius:14px;
+  background: var(--panel);
+  border:1px solid var(--panel_border);
+  box-shadow: var(--glow);
+}
+
+.about_intro {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Chips (stack neatly under intro) */
+.chip_row{
+  display:flex; flex-wrap:wrap; gap:8px;
+  margin: 6px 0 0;
+  padding: 0;
+}
 .chip{
-  display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; color:var(--text);
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:8px;
+  font-size:12px; color:var(--text);
   background:linear-gradient(180deg, rgba(138,211,255,0.18), rgba(161,139,255,0.18));
   border:1px solid var(--panel_border);
+  list-style:none;
 }
+
+/* Core skills */
+.about_subtitle{
+  margin:0 0 10px 0;
+  font-size:18px; font-weight:700;
+  letter-spacing:.2px;
+}
+
+/* Bulleted list with accent orbs */
+.list_orbit{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.list_orbit li{
+  position:relative;
+  padding-left:18px;
+  margin:8px 0;
+}
+.list_orbit--accent li::before{
+  content:"";
+  position:absolute;
+  left:0; top:0.9em;
+  width:8px; height:8px;
+  border-radius:50%;
+  transform:translateY(-50%);
+  background: linear-gradient(90deg, var(--accent), var(--accent_2));
+  box-shadow: 0 0 10px rgba(138,211,255,0.6);
+}
+
 
 /* Timeline */
 .timeline{ list-style:none; margin:0; padding:0; position:relative; }
@@ -263,8 +338,83 @@ section[id]::before{
 .timeline_card header h3{ margin:0; font-size:18px; }
 .timeline_card header .meta{ color:var(--muted); font-size:13px; }
 .timeline_card p{ margin:10px 0 10px; }
-.list_bullets{ margin:0; padding-left:18px; }
-.list_bullets li{ margin:6px 0; }
+
+/* ===== Experiences header refinements ===== */
+
+/* Layout the header: title block on the left, years pill on the right */
+
+.timeline_card {
+  font-size: 12px;
+}
+
+.timeline_card .xp_header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin:0 0 10px 0;
+}
+
+/* Title block stacks role + company */
+.timeline_card .xp_title{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+/* Role: gradient headline */
+.timeline_card .xp_role{
+  margin:0;
+  font-size:18px;         /* keep consistent with your card header size */
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:.2px;
+  background:linear-gradient(90deg, var(--accent), var(--accent_2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+/* Company: on its own line, subtle accent bar */
+.timeline_card .xp_company{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.3;
+  opacity:0.95;
+}
+
+/* Years: distinctive glowing pill */
+.timeline_card .xp_years{
+  flex:0 0 auto;
+  align-self:flex-start;
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.5px;
+  color:#0d1020;
+  background:linear-gradient(90deg, var(--accent), var(--accent_2));
+  box-shadow: var(--glow);
+  white-space:nowrap;
+}
+
+/* Tighten spacing below header before the paragraph */
+.timeline_card > p{
+  margin-top:6px; /* was 10px */
+}
+
+/* Responsive: stack pill under the title on narrow screens */
+@media (max-width:600px){
+  .timeline_card .xp_header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .timeline_card .xp_years{
+    align-self:auto;
+  }
+}
 
 /* Projects */
 .card_grid{ display:grid; gap:16px; grid-template-columns:repeat(12,1fr); }
