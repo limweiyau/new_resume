@@ -58,9 +58,9 @@
           <article class="about_card glass glow_outline">
             <header class="about_header">
               <div class="about_avatar" aria-hidden="true">👩‍🚀</div>
-              <p class="about_intro">
-                Hi, my name is Wei Yau. I'm a penultimate student in Singapore Management University, double majoring in Software Engineering and Tech for Business Solutions (Product Development). <br><br>
-              </p>
+                <p class="about_intro">
+                  Hi, my name is Wei Yau. I'm a penultimate student in Singapore Management University, double majoring in Software Engineering and Tech for Business Solutions (Product Development). <br><br>
+                </p>
             </header>
 
             <ul class="chip_row">
@@ -77,12 +77,12 @@
           <!-- Core skills card -->
           <aside class="about_panel glass glow_outline">
             <h3 class="about_subtitle">Core Skills</h3>
-            <ul class="list_orbit list_orbit--accent">
-              <li>Stakeholder Management</li>
-              <li>QA, QC & UAT</li>
-              <li>Analytics & Strategy</li>
-              <li>Product Management</li>
-            </ul>
+              <ul class="list_orbit list_orbit--accent">
+                <li>Stakeholder Management</li>
+                <li>QA, QC & UAT</li>
+                <li>Analytics & Strategy</li>
+                <li>Product Management</li>
+              </ul>
           </aside>
         </div>
       </div>
@@ -172,9 +172,10 @@
               <span class="chip">HTML</span>
               <span class="chip">CSS</span>
               <span class="chip">JavaScript</span>
+              <span class="chip">EmailJS</span>
             </div>
             <div class="proj_actions">
-              <a class="btn" href="#" aria-disabled="false">Live</a>
+              <a class="btn" href="https:limweiyau.github.io/new_resume" aria-disabled="false">Live</a>
             </div>
           </article>
 
@@ -183,7 +184,7 @@
               <h3>Piskwy</h3>
               <span class="proj_icon" aria-hidden="true">🛸</span>
             </div>
-            <p>A couch date telegram bot that recommends movies</p>
+            <p>Movie recommendation telegram bot</p>
             <div class="chip_row">
               <span class="chip">Python</span>
               <span class="chip">TMDB API</span>
@@ -202,26 +203,26 @@
       <div class="container">
         <h2 class="section_title">Contact</h2>
         <div class="contact_panel glass reveal">
-          <p>Drop a line via your preferred channel. This form is a placeholder.</p>
-          <form class="contact_form" action="#" method="post" novalidate>
+          <p>Drop me an email message! I will respond at my earliest convenience!</p>
+          <form id="contactForm" class="contact_form">
             <label class="field">
               <span>Name</span>
-              <input type="text" name="name" placeholder="Your name" />
+              <input type="text" name="name" placeholder="Your name" required autocomplete="off"/>
             </label>
             <label class="field">
               <span>Email</span>
-              <input type="email" name="email" placeholder="you@example.com" />
+              <input type="email" name="email" placeholder="you@example.com" required autocomplete="off"/>
             </label>
             <label class="field">
               <span>Message</span>
-              <textarea name="message" rows="5" placeholder="Say hi..."></textarea>
+              <textarea name="message" rows="5" placeholder="Say hi..." required autocomplete="off"></textarea>
             </label>
-            <button class="btn" type="submit" disabled>Send</button>
+            <button class="btn" type="submit">Send</button>
           </form>
           <div class="contact_notes">
-            <a class="link" href="#" aria-disabled="true">GitHub</a>
-            <a class="link" href="#" aria-disabled="true">LinkedIn</a>
-            <a class="link" href="#" aria-disabled="true">Email</a>
+            <a class="link" href="https://www.linkedin.com/in/lim-wei-yau-371323161" aria-disabled="false">LinkedIn</a>
+            <a class="link" href="docs/resume.pdf" download>Resume</a>
+            <a class="link" href="docs/transcript.pdf" download>Transcript</a>
           </div>
         </div>
       </div>
@@ -241,6 +242,9 @@
   <!-- Your background + hero scripts -->
   <script src="js/starfield.js"></script>
   <script src="js/orbit-random.js"></script>
+  
+  <!-- Load EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

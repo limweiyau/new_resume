@@ -72,7 +72,7 @@
   --hero-minvh: 85vh;                 /* min height of hero area */
   /* Ring sizes (now responsive via clamp + vw) */
   --ring-0-size: clamp(18rem, 52vw, 28rem);
-  --ring-1-size: clamp(14rem, 40vw, 21rem);
+  --ring-1-size: clamp(14rem, 40vw, 22rem);
   --ring-2-size: clamp(10rem, 28vw, 16rem);
   /* Ring base speed in seconds; inner rings speed up by a step */
   --ring-0-dur: 38s;
@@ -341,6 +341,7 @@ body{
 
 .about_intro{
   margin: 0; color: var(--text); line-height: 1.6;
+  font-size: 14px;
 }
 
 /* Chips */
@@ -361,7 +362,8 @@ body{
 /* Bulleted list with accent orbs */
 .about_subtitle{
   margin: 0 0 10px 0;
-  font-size: 18px; font-weight: 700;
+  font-size: 12px; 
+  font-weight: 700;
   letter-spacing: 0.2px;
 }
 
@@ -474,11 +476,35 @@ body{
 .contact_form{ display: grid; gap: 12px; margin-top: 8px; }
 .contact_form .field{ display: grid; gap: 6px; }
 .contact_form .field span{ font-size: 13px; color: var(--muted); }
+
 .contact_form input, .contact_form textarea{
   width: 100%; padding: 10px 12px; border-radius: var(--radius-md);
   border: 1px solid rgba(255,255,255, var(--panel-border-alpha));
   background: rgba(255,255,255,0.04); color: var(--text);
+  outline: none; box-shadow: none;
 }
+
+/* Prevent switching colour on interaction */
+.contact_form input:focus,
+.contact_form textarea:focus,
+.contact_form input:valid,
+.contact_form textarea:valid,
+.contact_form input:active,
+.contact_form textarea:active {
+  border: 1px solid rgba(255,255,255, var(--panel-border-alpha));
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  outline: none; box-shadow: none;
+}
+
+/* Prevent switching colour on autofill */
+.contact_form input:-webkit-autofill,
+.contact_form textarea:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px rgba(255,255,255,0.04) inset !important;
+  -webkit-text-fill-color: var(--text) !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}
+
 .contact_form textarea{ resize: vertical; }
 .contact_notes{ display: flex; gap: 12px; margin-top: 12px; }
 .link{ color: var(--accent); text-decoration: none; }

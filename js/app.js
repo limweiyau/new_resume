@@ -23,5 +23,25 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   });
 }
 
+// === Form Submission ===
+// Initialize EmailJS
+  (function() {
+    emailjs.init("-L25qJ78nkjLXXWqk"); // Your PUBLIC key here
+  })();
+
+  // Submit handler
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    emailjs.sendForm('service_fv60cti', 'template_wse1zli', this)
+      .then(() => {
+        alert("Message sent!");
+        this.reset();
+      }, (err) => {
+        alert("Failed to send message.");
+        console.error("EmailJS Error:", err);
+      });
+  });
+
 // === Footer Year ===
 qs("#year").textContent = new Date().getFullYear();
