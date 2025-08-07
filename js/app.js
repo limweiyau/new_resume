@@ -33,7 +33,7 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    emailjs.sendForm('service_fv60cti', 'template_wse1zli', this)
+    emailjs.sendForm('service_fv60cti', 'template_l1fz1jb', this)
       .then(() => {
         alert("Message sent!");
         this.reset();
